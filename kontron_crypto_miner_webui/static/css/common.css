@@ -1,0 +1,25 @@
+/*
+@author Ronan Delacroix
+*/
+
+body, table {  margin:0; font-family: sans-serif;}
+body { background: white; }
+table { color: inherit; border-spacing : 0; border-collapse : collapse; }
+table tr td, table tr th { padding: 0; }
+a:visited { color: inherit; }
+
+#header {
+    padding: 20px;
+    font-weight:  bold;
+    font-size: 1.3em;
+}
+
+#header #logo {
+    display: inline-block;
+    background-image: url("/static/kontron_logo.png");
+    background-size: 225px 46px;
+    width: 225px;
+    height: 46px;
+    margin-right: 20px;
+    vertical-align: -12px;
+}
