@@ -13,21 +13,27 @@ import json
 from flask.views import MethodView
 import logging
 import arrow
+import time
 import traceback
 from whitenoise import WhiteNoise
 from datetime import datetime, timedelta
+from . import metrics
 
 
 # Flask
 app = Flask('kontron-crypto-mining-webui',
-            #secret_key='MyVeryOwnSecretSaltKey',
             root_path=os.path.split(os.path.realpath(__file__))[0],
             template_folder='templates')
 app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
 app_name = "Kontron Crypto Mining Web UI"
 
+# Prometheus
+metrics.setup_metrics(app)
 
+
+# Routes
 @app.route('/')
 def index():
     tmpl_dict = {'app_name': app_name}
     return render_template('index.html', **tmpl_dict)
+
