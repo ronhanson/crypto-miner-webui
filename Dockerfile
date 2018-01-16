@@ -1,8 +1,6 @@
-FROM python:3.6-jessie
+FROM python:3.6
 
 MAINTAINER Ronan Delacroix "ronan.delacroix@gmail.com"
-
-#RUN apt-get -y update && apt-get -y install python3 python3-pip
 
 COPY . /opt/app
 WORKDIR /opt/app

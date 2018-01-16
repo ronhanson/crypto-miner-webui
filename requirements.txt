@@ -4,3 +4,4 @@ arrow
 prometheus_client
 whitenoise
 gunicorn
+requests

@@ -1,10 +1,44 @@
 {% extends "common/base.html" %}
 {% block head %}
-    <link href="/static/css/index.css" rel="stylesheet" type="text/css" media="all">
+    <!--<link href="/static/css/index.css" rel="stylesheet" type="text/css" media="all">-->
+    <script src="/static/js/index.js"></script>
 {% endblock %}
 {% block body %}
 <div id="container">
-    My first page.
+
+    <div id="wallet">
+        <!--<div id="status" v-bind:class="{ loading: loading }">
+            {{ '{{' }} message {{ '}}' }}
+        </div>-->
+        <div id="stats">
+            <h2>Statistics</h2>
+            <div class="stat"><label>Total Shares : </label>{{ '{{' }} stats.hashes {{ '}}' }} ({{ '{{' }} (stats.hashes / 1024 / 1024).toFixed(1) {{ '}}' }} MH)</div>
+            <div class="stat"><label>Current Hashrate : </label>{{ '{{' }} stats.hashrate {{ '}}' }} / sec</div>
+            <div class="stat"><label>Total Paid : </label>{{ '{{' }} (stats.paid / 100).toFixed(2) {{ '}}' }} ETN</div>
+            <div class="stat"><label>Pending Balance : </label>{{ '{{' }} (stats.balance / 100).toFixed(2) {{ '}}' }} ETN</div>
+            <div class="stat"><label>Last Share Submitted : </label>{{ '{{' }} stats.lastShare {{ '}}' }}</div>
+        </div>
+        <div id="transactions">
+            <h2>Payments</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th><th>Amount</th><th>Fee</th><th>Mixin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr is="transaction-item"
+                        v-for="item in transactions"
+                        v-bind:transaction="item"
+                        v-bind:key="item.id">
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+<script>
+    WALLET_ADDRESS = '{{ wallet_address }}';
+</script>
 
 {% endblock %}

@@ -38,7 +38,7 @@ def setup_metrics(app):
     app.before_request(before_request)
     app.after_request(after_request)
 
-    @app.route('/metrics/')
+    @app.route('/metrics')
     def metrics():
         return Response(prometheus_client.generate_latest(), mimetype='text/plain; version=0.0.4; charset=utf-8')
 
