@@ -56,3 +56,7 @@ td, th {
 #transactions table {
     margin: 0 auto;
 }
+
+#stats .stat span {
+    font-weight: bold;
+}

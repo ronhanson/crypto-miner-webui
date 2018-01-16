@@ -12,11 +12,12 @@
         </div>-->
         <div id="stats">
             <h2>Statistics</h2>
-            <div class="stat"><label>Total Shares : </label>{{ '{{' }} stats.hashes {{ '}}' }} ({{ '{{' }} (stats.hashes / 1024 / 1024).toFixed(1) {{ '}}' }} MH)</div>
+            <div class="stat"><label>Total Hashes : </label>{{ '{{' }} stats.hashes {{ '}}' }} ({{ '{{' }} (stats.hashes / 1024 / 1024).toFixed(1) {{ '}}' }} MH)</div>
             <div class="stat"><label>Current Hashrate : </label>{{ '{{' }} stats.hashrate {{ '}}' }} / sec</div>
-            <div class="stat"><label>Total Paid : </label>{{ '{{' }} (stats.paid / 100).toFixed(2) {{ '}}' }} ETN</div>
-            <div class="stat"><label>Pending Balance : </label>{{ '{{' }} (stats.balance / 100).toFixed(2) {{ '}}' }} ETN</div>
             <div class="stat"><label>Last Share Submitted : </label>{{ '{{' }} stats.lastShare {{ '}}' }}</div>
+            <div class="stat"><label>Electroneum price : </label>1 ETN = {{ '{{' }} (price.usd / 1).toFixed(4) {{ '}}' }} USD ({{ '{{' }} price.percent_change_24h {{ '}}' }}% ~ 24H) </div>
+            <div class="stat"><label>Total Paid : </label>{{ '{{' }} (stats.paid / 100).toFixed(2) {{ '}}' }} ETN = <span>{{ '{{' }} (stats.paid / 100 * price.usd).toFixed(2) {{ '}}' }} USD</span></div>
+            <div class="stat"><label>Pending Balance : </label>{{ '{{' }} (stats.balance / 100).toFixed(2) {{ '}}' }} ETN = <span>{{ '{{' }} (stats.balance / 100 * price.usd).toFixed(2) {{ '}}' }} USD</span></div>
         </div>
         <div id="transactions">
             <h2>Payments</h2>
@@ -29,7 +30,7 @@
                 <tbody>
                     <tr is="transaction-item"
                         v-for="item in transactions"
-                        v-bind:transaction="item"
+                        v-bind:t="item"
                         v-bind:key="item.id">
                     </tr>
                 </tbody>

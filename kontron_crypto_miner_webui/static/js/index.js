@@ -5,8 +5,8 @@
 $(document).ready(function() {
 
     Vue.component('transaction-item', {
-        props: ['transaction'],
-        template: '<tr><td v-bind:title="transaction.hash">{{ transaction.time }}</td><td>{{ transaction.amount }}</td><td>{{ transaction.fee }}</td><td>{{ transaction.mixin }}</td></tr>',
+        props: ['t'],
+        template: '<tr v-bind:title="t.hash"><td>{{ t.time }}</td><td>{{ t.amount }}</td><td>{{ t.fee }}</td><td>{{ t.mixin }}</td></tr>',
     });
 
     var app = new Vue({
@@ -14,6 +14,10 @@ $(document).ready(function() {
         data: {
             message: '',
             loading: false,
+            price : {
+                usd: 1.0,
+                percent_change_24h: "0"
+            },
             stats : {
                 hashes: 0,
                 hashrate: '---',
@@ -53,13 +57,25 @@ $(document).ready(function() {
                     }
                     vm.transactions = transactions;
                     vm.message = 'Wallet loaded';
-                    $.notify(vm.message, 'success');
+                    $.notify(vm.message, 'info');
                 }).catch(function(error) {
                     vm.message = 'Error ' + error;
-                    $.notify(vm.message, 'error');
+                    $.notify(vm.message, {className:'error', autoHideDelay: 10000});
                 }).finally(function() {
                     vm.loading = false;
                 });
+
+                axios.get('https://api.coinmarketcap.com/v1/ticker/').then(function (response) {
+                    var electroneum = _.where(response.data, {id: 'electroneum'})[0];
+                    vm.price.usd = electroneum.price_usd;
+                    vm.price.percent_change_24h = electroneum.percent_change_24h;
+                }).catch(function(error) {
+                    vm.message = vm.message + 'Error ' + error;
+                    $.notify(vm.message, {className:'error', autoHideDelay: 10000});
+                })
+
+
+                setTimeout(this.refreshWallet, 10000);
             }
         }
     });

@@ -22,9 +22,7 @@
     };
 
     $(document).ready(function() {
-
-        // common
-        // ...
+        $.notify.defaults( {autoHideDelay: 2000} )
     });
 
 })(jQuery);
