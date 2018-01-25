@@ -3,21 +3,40 @@
 */
 
 $(document).ready(function() {
+    Vue.config.delimiters = ['[[', ']]'];
 
-    Vue.component('transaction-item', {
+    TransactionItem = {
+        delimiters: ['[[', ']]'],
         props: ['t'],
-        template: '<tr v-bind:title="t.hash"><td>${ t.time }</td><td>${ t.amount }</td><td>${ t.fee }</td><td>${ t.mixin }</td></tr>',
-    });
+        template: '#transaction-item-template'
+    };
 
-    var wallet_app = new Vue({
+    Transactions = {
+        delimiters: ['[[', ']]'],
+        components: {'transaction-item': TransactionItem},
+        props: ['transactions'],
+        template: '#transactions-template'
+    };
+
+    Stats = {
+        delimiters: ['[[', ']]'],
+        props: ['stats', 'price'],
+        template: '#statistics-template'
+    };
+
+    new Vue({
         el: '#wallet',
-        delimiters: ['${', '}'],
+        delimiters: ['[[', ']]'],
+        components: {
+            'stats': Stats,
+            'transactions': Transactions
+        },
         data: {
             message: '',
             loading: false,
             price : {
                 usd: 1.0,
-                percent_change_24h: "0"
+                percent_change_24h: "---"
             },
             stats : {
                 hashes: 0,
@@ -26,8 +45,7 @@ $(document).ready(function() {
                 balance: 0,
                 lastShare: '---'
             },
-            transactions: [
-            ]
+            transactions: []
         },
         created: function() {
             this.refreshWallet();
@@ -73,8 +91,7 @@ $(document).ready(function() {
                 }).catch(function(error) {
                     vm.message = vm.message + 'Error ' + error;
                     $.notify(vm.message, {className:'error', autoHideDelay: 10000});
-                })
-
+                });
 
                 setTimeout(this.refreshWallet, 10000);
             }
