@@ -1,24 +1,27 @@
 {% extends "common/base.html" %}
 {% block head %}
     <!--<link href="/static/css/index.css" rel="stylesheet" type="text/css" media="all">-->
-    <script src="/static/js/index.js"></script>
+    <script src="/static/js/wallet.js"></script>
 {% endblock %}
 {% block body %}
-<div id="container">
 
-    <div id="wallet">
-        <!--<div id="status" v-bind:class="{ loading: loading }">
-            {{ '{{' }} message {{ '}}' }}
-        </div>-->
+<script type="text/x-template" id="transaction-item-template">
+    <tr v-bind:title="t.hash"><td>[[ t.time ]]</td><td>[[ t.amount ]]</td><td>[[ t.fee ]]</td><td>[[ t.mixin ]]</td></tr>
+</script>
+
+<script type="text/x-template" id="statistics-template">
         <div id="stats">
             <h2>Statistics</h2>
-            <div class="stat"><label>Total Hashes : </label>{{ '{{' }} stats.hashes {{ '}}' }} ({{ '{{' }} (stats.hashes / 1024 / 1024).toFixed(1) {{ '}}' }} MH)</div>
-            <div class="stat"><label>Current Hashrate : </label>{{ '{{' }} stats.hashrate {{ '}}' }} / sec</div>
-            <div class="stat"><label>Last Share Submitted : </label>{{ '{{' }} stats.lastShare {{ '}}' }}</div>
-            <div class="stat"><label>Electroneum price : </label>1 ETN = {{ '{{' }} (price.usd / 1).toFixed(4) {{ '}}' }} USD ({{ '{{' }} price.percent_change_24h {{ '}}' }}% ~ 24H) </div>
-            <div class="stat"><label>Total Paid : </label>{{ '{{' }} (stats.paid / 100).toFixed(2) {{ '}}' }} ETN = <span>{{ '{{' }} (stats.paid / 100 * price.usd).toFixed(2) {{ '}}' }} USD</span></div>
-            <div class="stat"><label>Pending Balance : </label>{{ '{{' }} (stats.balance / 100).toFixed(2) {{ '}}' }} ETN = <span>{{ '{{' }} (stats.balance / 100 * price.usd).toFixed(2) {{ '}}' }} USD</span></div>
+            <div><label>Total Hashes : </label>[[stats.hashes]] ([[(stats.hashes / 1024 / 1024).toFixed(1)]] MH)</div>
+            <div><label>Current Hashrate : </label>[[stats.hashrate]] / sec</div>
+            <div><label>Last Share Submitted : </label>[[stats.lastShare]]</div>
+            <div><label>Electroneum price : </label>1 ETN = [[(price.usd / 1).toFixed(4)]] USD ([[price.percent_change_24h]]% ~ 24H) </div>
+            <div><label>Total Paid : </label>[[(stats.paid / 100).toFixed(2)]] ETN = <span>[[(stats.paid / 100 * price.usd).toFixed(2)]] USD</span></div>
+            <div><label>Pending Balance : </label>[[(stats.balance / 100).toFixed(2)]] ETN = <span>[[(stats.balance / 100 * price.usd).toFixed(2)]] USD</span></div>
         </div>
+</script>
+
+<script type="text/x-template" id="transactions-template">
         <div id="transactions">
             <h2>Payments</h2>
             <table>
@@ -36,6 +39,12 @@
                 </tbody>
             </table>
         </div>
+</script>
+
+<div id="container">
+    <div id="wallet">
+        <stats v-bind:stats="stats" v-bind:price="price"></stats>
+        <transactions v-bind:transactions="transactions" ></transactions>
     </div>
 </div>
 <script>

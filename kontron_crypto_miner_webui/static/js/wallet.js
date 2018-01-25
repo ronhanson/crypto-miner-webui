@@ -6,11 +6,12 @@ $(document).ready(function() {
 
     Vue.component('transaction-item', {
         props: ['t'],
-        template: '<tr v-bind:title="t.hash"><td>{{ t.time }}</td><td>{{ t.amount }}</td><td>{{ t.fee }}</td><td>{{ t.mixin }}</td></tr>',
+        template: '<tr v-bind:title="t.hash"><td>${ t.time }</td><td>${ t.amount }</td><td>${ t.fee }</td><td>${ t.mixin }</td></tr>',
     });
 
-    var app = new Vue({
+    var wallet_app = new Vue({
         el: '#wallet',
+        delimiters: ['${', '}'],
         data: {
             message: '',
             loading: false,

@@ -7,7 +7,7 @@ WORKDIR /opt/app
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-ENV PYTHONPATH=$PYTHONPATH:/opt/app:/opt/current_folder
+ENV PYTHONPATH=$PYTHONPATH:/opt/app
 
 EXPOSE 5050
 ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:5050", "--access-logfile", "-", "--error-logfile", "-"]
