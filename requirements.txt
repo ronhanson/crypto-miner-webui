@@ -6,3 +6,4 @@ whitenoise
 gunicorn
 requests
 dpath
+kubernetes

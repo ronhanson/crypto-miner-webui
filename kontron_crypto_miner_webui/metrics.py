@@ -75,18 +75,18 @@ def get_prometheus_metrics():
 
     return {
         # nodes
-        "cpu_capacity_total": cpu_capacity_total,
-        "mem_capacity_total": mem_capacity_total,
-        "pod_capacity_total": pod_capacity_total,
-        "cpu_allocatable_total": cpu_allocatable_total,
-        "mem_allocatable_total": mem_allocatable_total,
-        "pod_allocatable_total": pod_allocatable_total,
+        "cpu_capacity_avg": cpu_capacity_total,
+        "mem_capacity_avg": mem_capacity_total,
+        "pod_capacity_avg": pod_capacity_total,
+        "cpu_allocatable_avg": cpu_allocatable_total,
+        "mem_allocatable_avg": mem_allocatable_total,
+        "pod_allocatable_avg": pod_allocatable_total,
         # pods
-        "cpu_requests_total": cpu_requests_total,
-        "mem_requests_total": mem_requests_total,
+        "cpu_requests_avg": cpu_requests_total,
+        "mem_requests_avg": mem_requests_total,
         # diff
-        "cpu_capacity_remaining": cpu_capacity_remaining,
-        "mem_capacity_remaining": mem_capacity_remaining
+        "cpu_capacity_remaining_avg": cpu_capacity_remaining,
+        "mem_capacity_remaining_avg": mem_capacity_remaining
     }
 
 
@@ -99,33 +99,41 @@ def setup_gauge(key, label):
     g.set_function(lambda: PROMETHEUS_METRICS[key])
 
 
-setup_gauge('cpu_capacity_total', 'CPU Total Capacity (milli)')
-setup_gauge('mem_capacity_total', 'Memory Total Capacity (Ki)')
-setup_gauge('pod_capacity_total', 'Pod Total Capacity')
-setup_gauge('cpu_allocatable_total', 'CPU Total Allocatable (milli)')
-setup_gauge('mem_allocatable_total', 'Memory Total Allocatable (Ki)')
-setup_gauge('pod_allocatable_total', 'Pod Total Allocatable')
-setup_gauge('cpu_requests_total', 'CPU Requests Total (milli)')
-setup_gauge('mem_requests_total', 'Memory Requests Total (Ki)')
-setup_gauge('cpu_capacity_remaining', "CPU Remaining Capacity (milli)")
-setup_gauge('mem_capacity_remaining', "Memory Remaining Capacity (Ki)")
+setup_gauge('cpu_capacity_avg', 'CPU Total Capacity (milli)')
+setup_gauge('mem_capacity_avg', 'Memory Total Capacity (Ki)')
+setup_gauge('pod_capacity_avg', 'Pod Total Capacity')
+setup_gauge('cpu_allocatable_avg', 'CPU Total Allocatable (milli)')
+setup_gauge('mem_allocatable_avg', 'Memory Total Allocatable (Ki)')
+setup_gauge('pod_allocatable_avg', 'Pod Total Allocatable')
+setup_gauge('cpu_requests_avg', 'CPU Requests Total (milli)')
+setup_gauge('mem_requests_avg', 'Memory Requests Total (Ki)')
+setup_gauge('cpu_capacity_remaining_avg', "CPU Remaining Capacity (milli)")
+setup_gauge('mem_capacity_remaining_avg', "Memory Remaining Capacity (Ki)")
 
 
-# http request timings
+#
 def before_request():
+    """
+    HTTP Request timings
+    """
     request.start_time = time.time()
 
 
 def after_request(response):
+    """
+    HTTP Request timings
+    """
     request_latency = time.time() - request.start_time
     REQUEST_LATENCY.labels(request.method, request.path).observe(request_latency)
     REQUEST_COUNT.labels(request.method, request.path, response.status_code).inc()
-
     return response
 
 
 # main metric setup command
 def setup_metrics(app):
+    """
+    Setup Flask app with prometheus metrics
+    """
     app.before_request(before_request)
     app.after_request(after_request)
 

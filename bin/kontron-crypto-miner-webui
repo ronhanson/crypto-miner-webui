@@ -18,7 +18,7 @@ if __name__ == "__main__":
     parser.add_argument('wallet_address', help='Electromine Wallet Address.')
     args = vars(parser.parse_args())
     wallet = args.get('wallet_address')
-    os.environ['ELECROMINE_WALLET'] = wallet
+    os.environ['ELECTROMINE_WALLET'] = wallet
 
     import kontron_crypto_miner_webui
 
