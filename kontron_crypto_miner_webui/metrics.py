@@ -27,14 +27,29 @@ REQUEST_LATENCY = prometheus_client.Histogram(
 
 
 def convert_to_milli(val):
+    """
+    Converts a string to milli value in int.
+    Useful to convert milli values from k8s.
+    Examples:
+        convert_to_milli('10m') -> 10
+        convert_to_milli('10000m') -> 10000
+        convert_to_milli('1') -> 1000
+        convert_to_milli('100') -> 100000
+    """
     if val[-1] == 'm':
         return int(val.rstrip('m'))
     else:
         return 1000 * int(val)
 
 
-def get_prometheus_metrics():
-    config.load_kube_config()
+def get_k8s_metrics():
+    """
+    Retrieves dataset of cpu and memory metrics about pods and nodes from kubernetes API
+    """
+    if os.environ.get("LOAD_INCLUSTER_CONFIG", False):
+        config.load_incluster_config()
+    else:
+        config.load_kube_config()
     v1 = client.CoreV1Api()
 
     # Nodes
@@ -75,53 +90,57 @@ def get_prometheus_metrics():
 
     return {
         # nodes
-        "cpu_capacity_avg": cpu_capacity_total,
-        "mem_capacity_avg": mem_capacity_total,
-        "pod_capacity_avg": pod_capacity_total,
-        "cpu_allocatable_avg": cpu_allocatable_total,
-        "mem_allocatable_avg": mem_allocatable_total,
-        "pod_allocatable_avg": pod_allocatable_total,
+        "cpu_capacity": cpu_capacity_total,
+        "mem_capacity": mem_capacity_total,
+        "pod_capacity": pod_capacity_total,
+        "cpu_allocatable": cpu_allocatable_total,
+        "mem_allocatable": mem_allocatable_total,
+        "pod_allocatable": pod_allocatable_total,
         # pods
-        "cpu_requests_avg": cpu_requests_total,
-        "mem_requests_avg": mem_requests_total,
+        "cpu_requests": cpu_requests_total,
+        "mem_requests": mem_requests_total,
         # diff
-        "cpu_capacity_remaining_avg": cpu_capacity_remaining,
-        "mem_capacity_remaining_avg": mem_capacity_remaining
+        "cpu_capacity_remaining": cpu_capacity_remaining,
+        "mem_capacity_remaining": mem_capacity_remaining
     }
 
 
-PROMETHEUS_METRICS = get_prometheus_metrics()
+# K8s metrics caching
+PROMETHEUS_METRICS = get_k8s_metrics()
 
 
 def setup_gauge(key, label):
+    """
+    Helper method to setup a prometheus gauge
+    """
     global PROMETHEUS_METRICS
     g = prometheus_client.Gauge(key, label)
     g.set_function(lambda: PROMETHEUS_METRICS[key])
 
-
-setup_gauge('cpu_capacity_avg', 'CPU Total Capacity (milli)')
-setup_gauge('mem_capacity_avg', 'Memory Total Capacity (Ki)')
-setup_gauge('pod_capacity_avg', 'Pod Total Capacity')
-setup_gauge('cpu_allocatable_avg', 'CPU Total Allocatable (milli)')
-setup_gauge('mem_allocatable_avg', 'Memory Total Allocatable (Ki)')
-setup_gauge('pod_allocatable_avg', 'Pod Total Allocatable')
-setup_gauge('cpu_requests_avg', 'CPU Requests Total (milli)')
-setup_gauge('mem_requests_avg', 'Memory Requests Total (Ki)')
-setup_gauge('cpu_capacity_remaining_avg', "CPU Remaining Capacity (milli)")
-setup_gauge('mem_capacity_remaining_avg', "Memory Remaining Capacity (Ki)")
+# setup metrics once
+setup_gauge('cpu_capacity', 'CPU Total Capacity (milli)')
+setup_gauge('mem_capacity', 'Memory Total Capacity (Ki)')
+setup_gauge('pod_capacity', 'Pod Total Capacity')
+setup_gauge('cpu_allocatable', 'CPU Total Allocatable (milli)')
+setup_gauge('mem_allocatable', 'Memory Total Allocatable (Ki)')
+setup_gauge('pod_allocatable', 'Pod Total Allocatable')
+setup_gauge('cpu_requests', 'CPU Requests Total (milli)')
+setup_gauge('mem_requests', 'Memory Requests Total (Ki)')
+setup_gauge('cpu_capacity_remaining', "CPU Remaining Capacity (milli)")
+setup_gauge('mem_capacity_remaining', "Memory Remaining Capacity (Ki)")
 
 
 #
 def before_request():
     """
-    HTTP Request timings
+    HTTP Request timings helper
     """
     request.start_time = time.time()
 
 
 def after_request(response):
     """
-    HTTP Request timings
+    HTTP Request timings, setting prometheus metric value
     """
     request_latency = time.time() - request.start_time
     REQUEST_LATENCY.labels(request.method, request.path).observe(request_latency)
@@ -129,7 +148,6 @@ def after_request(response):
     return response
 
 
-# main metric setup command
 def setup_metrics(app):
     """
     Setup Flask app with prometheus metrics
@@ -139,9 +157,9 @@ def setup_metrics(app):
 
     @app.route('/metrics')
     def metrics():
-        # update node metrics once
+        # update k8s metrics each time this url is called.
         global PROMETHEUS_METRICS
-        PROMETHEUS_METRICS = get_prometheus_metrics()
+        PROMETHEUS_METRICS = get_k8s_metrics()
         return Response(prometheus_client.generate_latest(), mimetype='text/plain; version=0.0.4; charset=utf-8')
 
 
