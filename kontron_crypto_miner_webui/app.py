@@ -17,7 +17,7 @@ app = Flask('kontron-crypto-mining-webui',
             root_path=os.path.split(os.path.realpath(__file__))[0],
             template_folder='templates')
 app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
-app_name = "Kontron Crypto Mining Web UI"
+app_name = "Crypto Mining Web UI"
 
 
 # Prometheus metrics setup
@@ -36,7 +36,9 @@ def index():
 
     tmpl_dict = {
         'app_name': app_name,
-        "wallet_address": electromine_wallet_address
+        "wallet_address": electromine_wallet_address,
+        "grafana_url": os.environ.get("GRAFANA_URL", None),
+        "grafana_graph_id": os.environ.get("GRAFANA_GRAPH_ID", None)
     }
     return render_template('index.html', **tmpl_dict)
 

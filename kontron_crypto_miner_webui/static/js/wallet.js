@@ -3,6 +3,7 @@
 */
 
 $(document).ready(function() {
+
     Vue.config.delimiters = ['[[', ']]'];
 
     TransactionItem = {
@@ -59,6 +60,9 @@ $(document).ready(function() {
                     vm.stats = response.data.stats;
                     vm.stats.lastShare = moment(vm.stats.lastShare*1000).calendar()
 
+                    var graph_x_dates = [];
+                    var graph_y_values = [];
+                    /*var graph_y_top_value =0;*/
                     var transactions = [];
                     var payments = response.data.payments;
 
@@ -73,9 +77,50 @@ $(document).ready(function() {
                             mixin: parts[3]
                         };
                         transactions.push(payment);
+                        graph_x_dates.push(moment(payments[i + 1]*1000).toISOString())
+                        /*graph_y_top_value = graph_y_top_value+(parts[1]/100.0)*/
+                        graph_y_values.push(parts[1]/100.0)
                     }
                     vm.transactions = transactions;
                     vm.message = 'Wallet loaded';
+
+                    graph_x_dates = graph_x_dates.reverse();
+                    graph_y_values = graph_y_values.reverse();
+                    var last_val = 0;
+                    var graph_y_stacked_values = _.map(graph_y_values, function(val) {
+                        last_val = last_val + val;
+                        return last_val;
+                    });
+                    var graph_data = [{
+                        x: graph_x_dates,
+                        y: graph_y_stacked_values,
+                        name: 'Balance over time (ETN)',
+                        fill: 'tonexty',
+                        type: 'scatter'
+                    },{
+                        x: graph_x_dates,
+                        y: graph_y_values,
+                        marker: {
+                            color:'rgb(188, 208, 220)',
+                            size:graph_y_values,
+                        },
+                        name: 'Payments (ETN)',
+                        yaxis: 'y2',
+                        mode: 'markers',
+                        type: 'scatter'
+                    }];
+                    var layout = {
+                        title: 'Eletromine Payments',
+                        yaxis: {title: 'Overall Balance (ETN)'},
+                        yaxis2: {
+                            title: 'Payments (ETN)',
+                            titlefont: {color: 'rgb(188, 208, 220)'},
+                            tickfont: {color: 'rgb(188, 208, 220)'},
+                            overlaying: 'y',
+                            side: 'right'
+                        }
+                    };
+                    Plotly.newPlot('transactions_graph', graph_data, layout);
                     $.notify(vm.message, 'info');
                 }).catch(function(error) {
                     vm.message = 'Error ' + error;

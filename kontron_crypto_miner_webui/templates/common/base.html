@@ -9,15 +9,24 @@
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+        <script src="/static/js/lib/plotly-latest.min.js"></script>
         <script src="/static/js/common.js"></script>
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
         <link href="/static/css/common.css" rel="stylesheet" type="text/css" media="all">
         <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
         {% block head %}{% endblock %}
     </head>
     <body>
         {% if not ajax %}
-        <div id="header"><a href="/"><span id="logo"></span></a><span id="subtitle">{{app_name}}</span></div>
+            <div id="header">
+                <a href="/">
+                    <span id="logo"></span>
+                    <span id="subtitle"><i class="fa fa-line-chart fa-fw"></i>&nbsp;&nbsp;{{app_name}}</span>
+                </a>
+                <span id="sponsored">
+                    Sponsored by <span id="kontron_logo"><img src="/static/img/kontron_logo.png" width="100px" title="Kontron"/></span>
+                </span>
+            </div>
         {% endif %}
         {% block body %}{% endblock %}
     <script>

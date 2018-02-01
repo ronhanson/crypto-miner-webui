@@ -106,7 +106,8 @@ def get_k8s_metrics():
 
 
 # K8s metrics caching
-PROMETHEUS_METRICS = get_k8s_metrics()
+#PROMETHEUS_METRICS = get_k8s_metrics()
+PROMETHEUS_METRICS = {}
 
 
 def setup_gauge(key, label):
