@@ -61,7 +61,8 @@ Env variables
   - ***EXCLUDE_POD_NAMESPACES*** <optional> - exlude pod namespaces from computed Prometheus CPU/Memory metrics.
   - ***LOAD_INCLUSTER_CONFIG*** <optional> - If set ('ON' or any value), the kubernetes config will be loaded from incluster
 in opposition to default config load method (load_kube_config / load_incluster_config).
-
+  - ***GRAFANA_URL*** <optional> - If set to existing grafana url, displays grafana graph in a section on dashboard.
+  - ***GRAFANA_GRAPH_ID*** <optional> - If set to existing grafana id, displays grafana graph in a section on dashboard. 
 
 Compatibility
 -------------
