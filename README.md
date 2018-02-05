@@ -26,18 +26,18 @@ Run
 
 #### Python script usage (dev mode)
 
-    bin/kontron-crypto-miner-webui <MY_ELECTROMINE_WALLET_KEY>
+    bin/crypto-miner-webui <MY_ELECTROMINE_WALLET_KEY>
 
 
 #### Run using gunicorn
 
 First set required ENV variable (see below), then :
 
-    gunicorn -b 0.0.0.0:5050 --access-logfile - --error-logfile - kontron_crypto_miner_webui:app
+    gunicorn -b 0.0.0.0:5050 --access-logfile - --error-logfile - crypto_miner_webui:app
 
 *or*
 
-    bin/kontron-crypto-miner-webui.sh 
+    bin/crypto-miner-webui.sh 
 
 
 #### Docker Build and Run
@@ -61,7 +61,8 @@ Env variables
   - ***EXCLUDE_POD_NAMESPACES*** <optional> - exlude pod namespaces from computed Prometheus CPU/Memory metrics.
   - ***LOAD_INCLUSTER_CONFIG*** <optional> - If set ('ON' or any value), the kubernetes config will be loaded from incluster
 in opposition to default config load method (load_kube_config / load_incluster_config).
-  - ***GRAFANA_URL*** <optional> - If set to existing grafana url, displays grafana graph in a section on dashboard.
+  - ***GRAFANA_SERVICE_HOST*** <optional> - If set to existing grafana host, displays grafana graph in a section on dashboard.
+  - ***GRAFANA_SERVICE_PORT*** <optional> - If set to existing grafana port, displays grafana graph in a section on dashboard.
   - ***GRAFANA_GRAPH_ID*** <optional> - If set to existing grafana id, displays grafana graph in a section on dashboard. 
 
 Compatibility
@@ -77,7 +78,7 @@ Mainly tested on 2.7 and 3.6.
 Author and Licence
 ----------------
 
-Project url : https://github.com/ronhanson/python-kontron-crypto-miner-webui
+Project url : https://github.com/ronhanson/python-crypto-miner-webui
 
 Copyright © 2018 [Ronan Delacroix](www.linkedin.com/in/ronan-delacroix)
 

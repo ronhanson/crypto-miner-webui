@@ -9,18 +9,18 @@ requirements = [r.strip() for r in open('requirements.txt').readlines() if not r
 requirements = [r if ('git+' not in r) else re.sub(r".*egg=(.*)", r"\1", r).strip() for r in requirements]
 
 setup(
-    name='kontron-crypto-miner-webui',
+    name='crypto-miner-webui',
     version='0.1',
     author='Ronan Delacroix',
     author_email='ronan.delacroix@gmail.com',
-    url='https://github.com/ronhanson/python-kontron-crypto-miner-webui',
-    packages=find_packages(where='.', exclude=[]) + ['kontron-crypto-miner-webui'],
+    url='https://github.com/ronhanson/python-crypto-miner-webui',
+    packages=find_packages(where='.', exclude=[]) + ['crypto-miner-webui'],
     include_package_data=True,
     package_data={}, #done in MANIFEST.in
-    scripts=['bin/kontron-crypto-miner-webui'],
+    scripts=['bin/crypto-miner-webui'],
     data_files=[],
     license=open('LICENCE.txt').read().strip(),
-    description='Kontron - Crypto Miner Web UI',
+    description='Crypto Miner Web UI - Sponsored by Kontron',
     long_description=open('README.md').read().strip(),
     setup_requires=requirements,
     classifiers=[

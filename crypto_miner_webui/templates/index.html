@@ -66,14 +66,14 @@
 <div id="container">
     <div id="wallet">
         <stats v-bind:stats="stats" v-bind:price="price"></stats>
-        {% if grafana_url %}
+        {% if grafana_graph_id %}
         <div class="section">
             <h2>Cluster CPU Usage</h2>
-            <iframe src="{{ grafana_url }}/dashboard-solo/db/{{ grafana_graph_id }}?orgId=1&panelId=1&theme=light" width="99%" height="200" frameborder="0"></iframe>
+            <iframe src="http://{{ grafana_host }}:{{ grafana_port }}/dashboard-solo/db/{{ grafana_graph_id }}?orgId=1&panelId=1&theme=light" width="99%" height="200" frameborder="0"></iframe>
         </div>
         <div class="section">
             <h2>Cluster Memory Usage</h2>
-            <iframe src="{{ grafana_url }}/dashboard-solo/db/{{ grafana_graph_id }}?orgId=1&panelId=2&theme=light" width="99%" height="200" frameborder="0"></iframe>
+            <iframe src="http://{{ grafana_host }}:{{ grafana_port }}/dashboard-solo/db/{{ grafana_graph_id }}?orgId=1&panelId=2&theme=light" width="99%" height="200" frameborder="0"></iframe>
         </div>
         {%  endif %}
         <transactions v-bind:transactions="transactions" ></transactions>
