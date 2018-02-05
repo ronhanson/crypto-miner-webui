@@ -3,7 +3,7 @@
 # vim: ai ts=4 sts=4 et sw=4 nu
 """
 (c) 2018 Ronan Delacroix
-Kontron Crypto Mining Web UI
+Crypto Mining Web UI
 :author: Ronan Delacroix
 """
 import argparse
@@ -20,9 +20,9 @@ if __name__ == "__main__":
     wallet = args.get('wallet_address')
     os.environ['ELECTROMINE_WALLET'] = wallet
 
-    import kontron_crypto_miner_webui
+    import crypto_miner_webui
 
-    kontron_crypto_miner_webui.app.jinja_env.auto_reload = True
-    kontron_crypto_miner_webui.app.config['TEMPLATES_AUTO_RELOAD'] = True
-    kontron_crypto_miner_webui.app.run(debug=True, port=5050)
+    crypto_miner_webui.app.jinja_env.auto_reload = True
+    crypto_miner_webui.app.config['TEMPLATES_AUTO_RELOAD'] = True
+    crypto_miner_webui.app.run(debug=True, port=5050)
 

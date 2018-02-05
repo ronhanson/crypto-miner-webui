@@ -3,7 +3,7 @@
 # vim: ai ts=4 sts=4 et sw=4 nu
 """
 (c) 2018 Ronan Delacroix
-Kontron Crypto Mining Web UI
+Crypto Mining Web UI
 :author: Ronan Delacroix
 """
 from .app import *
