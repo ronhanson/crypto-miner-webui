@@ -26,7 +26,7 @@ Run
 
 #### Python script usage (dev mode)
 
-    bin/crypto-miner-webui <MY_ELECTROMINE_WALLET_KEY>
+    bin/crypto-miner-webui <MY_WALLET_ID>
 
 
 #### Run using gunicorn
@@ -44,7 +44,7 @@ First set required ENV variable (see below), then :
 
     docker build . -t mwc-miner-metrics:latest
 
-    docker run -p 5050:5050 -e ELECROMINE_WALLET=<MY_ELECTROMINE_WALLET_KEY> mwc-miner-metrics.web:latest
+    docker run -p 5050:5050 -e WALLET_ID=<MY_WALLET_ID> mwc-miner-metrics.web:latest
 
 Finally go to [http://localhost:5050/](http://localhost:5050/)
 
