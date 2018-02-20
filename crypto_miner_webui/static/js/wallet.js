@@ -71,7 +71,11 @@ $(document).ready(function() {
             y: rate,
             name: 'Balance over time (ETN)',
             fill: 'tonexty',
-            type: 'scatter'
+            type: 'scatter',
+            line: {
+                color: 'rgba(253,127,40,0.6)'
+            }
+
         };
         var layout = {
             title: 'Mining pool Hash Rate',
@@ -93,7 +97,13 @@ $(document).ready(function() {
             y: rate,
             name: 'Payments over time (ETN)',
             fill: 'tonexty',
-            type: 'scatter'
+            type: 'scatter',
+            line: {
+                color: 'rgba(50,127,52,0.6)'
+            },
+            marker: {
+                size: 10
+            }
         };
         var layout = {
             title: 'Payments',

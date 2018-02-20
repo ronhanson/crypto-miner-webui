@@ -8,7 +8,7 @@ Cluster Crypto Miner - Web UI & metrics
 What is this ?
 --------------
 
-This small demo aims to provides a simple dummy web interface allowing to vizualize live data about crypto currency 
+This small demo aims to provides a simple dummy web interface allowing to visualize live data about crypto currency 
 mining made on Kontron hardware, mining adaptative to hardware load (cpu).
 
 This app has been made to run in a Kubernetes cluster, even if nothing abides you from running it somewhere else, 
@@ -33,7 +33,7 @@ Run
 
 First set required ENV variable (see below), then :
 
-    gunicorn -b 0.0.0.0:5050 --access-logfile - --error-logfile - crypto_miner_webui:app
+    gunicorn -b 0.0.0.0:5050 --access-logfile - --error-logfile - crypto_miner_webui.web:app
 
 *or*
 
@@ -44,7 +44,7 @@ First set required ENV variable (see below), then :
 
     docker build . -t mwc-miner-metrics:latest
 
-    docker run -p 5050:5050 -e ELECROMINE_WALLET=<MY_ELECTROMINE_WALLET_KEY> mwc-miner-metrics:latest
+    docker run -p 5050:5050 -e ELECROMINE_WALLET=<MY_ELECTROMINE_WALLET_KEY> mwc-miner-metrics.web:latest
 
 Finally go to [http://localhost:5050/](http://localhost:5050/)
 
@@ -54,7 +54,8 @@ Env variables
 
 #### Index page related
 
-  - ***ELECTROMINE_WALLET*** <required to display index page> - public wallet key to display wallet data on index page
+  - ***WALLET_ID*** <required to display index page> - public wallet key to display wallet data on index page
+  - ***WALLET_API_URL*** <optional> - default to `https://etn.spacepools.org/api/stats_address`, url of the mining pool API. etn.spacepools.org is used by default.
 
 #### Kubernetes / Prometheus Metrics related
 
