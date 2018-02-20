@@ -12,13 +12,13 @@ import os
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
-        description="""Kontron Crypto Currency Miner Web UI""",
+        description="""Crypto Currency Miner Web UI""",
         add_help=False
     )
-    parser.add_argument('wallet_address', help='Electromine Wallet Address.')
+    parser.add_argument('wallet_id', help='ETN Wallet Identifier.')
     args = vars(parser.parse_args())
-    wallet = args.get('wallet_address')
-    os.environ['ELECTROMINE_WALLET'] = wallet
+    wallet = args.get('wallet_id')
+    os.environ['WALLET_ID'] = wallet
 
     import crypto_miner_webui
 

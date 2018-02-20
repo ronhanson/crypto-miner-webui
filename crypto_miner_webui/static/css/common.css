@@ -13,7 +13,7 @@ body {
 }
 
 #header {
-    padding: 20px 40px;
+    padding: 10px 40px;
     font-weight: lighter;
     font-size: 1.5em;
     background: rgb(255,255,255);
@@ -47,12 +47,12 @@ body {
     font-size: 0.5em;
     font-weight: bold;
     right: 20px;
-    top: 50px;
+    top: 30px;
 
 }
 
 #container {
-    padding: 100px 30px 10px 30px;
+    padding: 65px 20px 10px 20px;
 }
 
 label {
@@ -93,7 +93,7 @@ td, th {
     background: #EEE;
     margin: 5px;
     text-align: center;
-    width: 220px;
+    width: 180px;
     box-shadow: inset rgba(0, 0, 0, 0.5) 2px 2px 8px -2px;
     /* border-top: 10px solid rgb(114,150,187); */
 }
@@ -102,17 +102,17 @@ td, th {
     font-weight: bold;
 }
 
-#stats .stat label, .stat span {
+#stats .stat > label, .stat > span {
     display: block;
 }
 
 #stats .stat span.big {
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: bolder;
 }
 
 #stats .stat span.little {
-    font-size: 0.8em;
+    font-size: 0.7em;
     font-weight: lighter;
 }
 
@@ -137,7 +137,7 @@ td, th {
     max-height: 400px;
 }
 
-#stats div span {
+#stats div > span {
     font-weight: bold;
 }
 
@@ -150,12 +150,48 @@ td, th {
     /*height: 200px;*/
 }
 
-
-
 .fa-rotate-45 {
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     -o-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.graph {
+    height: 500px;
+    max-height: 500px;
+    display: inline-block;
+}
+
+.graph.main {
+    width: 100%;
+}
+
+.graph.half {
+    height: 300px;
+    width: 48%;
+}
+
+span.up {
+    color:darkgreen;
+}
+span.down {
+    color:darkred;
+}
+
+#stats .stat.total {
+    background-color: rgba(183, 219, 251, 0.25);
+}
+#stats .stat.rate {
+    background-color: rgba(255, 216, 130, 0.41);
+}
+#stats .stat.price {
+    background-color: rgba(212, 251, 183, 0.38);
+}
+#stats .stat.balance {
+    background-color: rgba(219, 183, 251, 0.26);
+}
+#stats .stat.pending {
+    background-color: rgba(183, 251, 235, 0.32);
 }

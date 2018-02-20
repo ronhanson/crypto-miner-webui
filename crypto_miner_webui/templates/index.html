@@ -6,7 +6,7 @@
 {% block body %}
 
 <script type="text/x-template" id="transaction-item-template">
-    <tr v-bind:title="t.hash"><td>[[ t.time ]]</td><td>[[ t.amount ]]</td><td>[[ t.fee ]]</td><td>[[ t.mixin ]]</td></tr>
+    <tr v-bind:title="t.hash"><td>[[ t.time ]]</td><td>[[ t.amount ]]</td><td>[[ t.fee ]]</td></tr>
 </script>
 
 <script type="text/x-template" id="statistics-template">
@@ -25,7 +25,7 @@
             <div class="stat price">
                 <label>Electroneum</label>
                 <span class="big">1 ETN = [[(price.usd / 1).toFixed(4)]]$</span>
-                <span class="little">[[price.percent_change_24h]]% ~ 24H</span>
+                <span class="little"><span v-bind:class="price.percent_change_24h<=0?'down':'up'">[[(price.percent_change_24h<=0?"":"+")+price.percent_change_24h]]% ~ 24H</span> / <span v-bind:class="price.percent_change_7d<=0?'down':'up'">[[(price.percent_change_7d<=0?"":"+")+price.percent_change_7d]]% ~ 7d</span></span>
             </div>
             <div class="stat balance">
                 <label>Total Balance</label>
@@ -43,12 +43,14 @@
 <script type="text/x-template" id="transactions-template">
         <div id="transactions" class="section">
             <h2>Payments</h2>
-            <div id="transactions_graph"></div>
+            <div id="transactions_graph" class="main graph"></div>
+            <div id="hash_graph" class="half graph hidden"></div>
+            <div id="payment_graph" class="half graph hidden"></div>
             <div class="overflowy">
                 <table>
                     <thead>
                         <tr>
-                            <th>Time</th><th>Amount</th><th>Fee</th><th>Mixin</th>
+                            <th>Time</th><th>Amount</th><th>Fee</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,7 +82,8 @@
     </div>
 </div>
 <script>
-    WALLET_ADDRESS = '{{ wallet_address }}';
+    WALLET_ID = '{{ wallet_id }}';
+    WALLET_API_URL = '{{ wallet_api_url }}';
 </script>
 
 {% endblock %}
