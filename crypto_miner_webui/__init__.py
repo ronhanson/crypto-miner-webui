@@ -6,4 +6,3 @@
 Crypto Mining Web UI
 :author: Ronan Delacroix
 """
-from .app import *

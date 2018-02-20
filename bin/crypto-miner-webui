@@ -20,9 +20,9 @@ if __name__ == "__main__":
     wallet = args.get('wallet_id')
     os.environ['WALLET_ID'] = wallet
 
-    import crypto_miner_webui
+    import crypto_miner_webui.web
 
-    crypto_miner_webui.app.jinja_env.auto_reload = True
-    crypto_miner_webui.app.config['TEMPLATES_AUTO_RELOAD'] = True
-    crypto_miner_webui.app.run(debug=True, port=5050)
+    crypto_miner_webui.web.app.jinja_env.auto_reload = True
+    crypto_miner_webui.web.app.config['TEMPLATES_AUTO_RELOAD'] = True
+    crypto_miner_webui.web.app.run(debug=True, port=5050)
 
