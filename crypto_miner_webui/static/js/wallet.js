@@ -88,35 +88,14 @@ $(document).ready(function() {
         Plotly.newPlot('hash_graph', [hash_trace], layout);
     }
 
-    function graph_payment(data) {
-        var dates = _.map(data, _.first);
-        dates = _.map(dates, function(d) {return moment(d * 1000).toISOString();});
-        var rate = _.map(data, function(d) {return d[1];});
-        var hash_trace = {
-            x: dates,
-            y: rate,
-            name: 'Payments over time (ETN)',
-            fill: 'tonexty',
-            type: 'scatter',
-            line: {
-                color: 'rgba(50,127,52,0.6)'
-            },
-            marker: {
-                size: 10
-            }
-        };
-        var layout = {
-            title: 'Payments',
-            yaxis: {
-                title: 'Value (ETN)',
-                ticksuffix: ' ETN'
-            },
-            showlegend: false
-        };
-        Plotly.newPlot('payment_graph', [hash_trace], layout);
-    }
-
     function process_stats(vm, data) {
+
+        if (data.charts) {
+            $('#transactions_graph').removeClass('main').addClass('half');
+            $('#hash_graph').removeClass('hidden');
+
+            graph_hash(data.charts.hashrate);
+        }
 
         vm.stats = data.stats;
         vm.stats.lastShare = moment(vm.stats.lastShare*1000).calendar();
@@ -148,12 +127,6 @@ $(document).ready(function() {
 
         graph_transaction(transactions_graph_x_dates, transactions_graph_y_values);
 
-        if (data.charts) {
-            $('#hash_graph').removeClass('hidden');
-            $('#payment_graph').removeClass('hidden');
-            graph_hash(data.charts.hashrate);
-            graph_payment(data.charts.payments);
-        }
     }
 
     function refresh_wallet() {
